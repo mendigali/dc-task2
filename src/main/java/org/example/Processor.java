@@ -7,7 +7,7 @@ import java.net.Socket;
 /**
  * Processor of HTTP request.
  */
-public class Processor {
+public class Processor extends Thread {
     private final Socket socket;
     private final HttpRequest request;
 
@@ -58,5 +58,15 @@ public class Processor {
         output.flush();
 
         socket.close();
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Hello, I am worker #" + Thread.currentThread().getId());
+        try {
+            process();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
